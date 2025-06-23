@@ -1,0 +1,65 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Reem+Kufi:wght@400;700&display=swap');
+@import "tailwindcss";
+/* تهيئة عامة للصفحة */
+:root {
+  --primary-color: #055f56; /* أخضر إسلامي رئيسي */
+  --secondary-color: #0e2f1a; /* أخضر داكن */
+  --accent-color: #f5a623; /* لون برتقالي مميز للأزرار */
+  --text-color: #333333; /* لون النص الأساسي */
+  --light-bg: #f8f8f8; /* خلفية فاتحة */
+}
+
+.custom-arabic-title {
+  font-family: 'Reem Kufi', sans-serif;
+  font-size: 1.5rem; /* 24px */
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: #ffffff; /* اللون الأخضر الإسلامي */
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* إعدادات أساسية للصفحة */
+body {
+  font-family: 'Tajawal', sans-serif;
+  direction: rtl; /* اتجاه النص من اليمين لليسار */
+  text-align: right;
+  color: var(--text-color);
+  background-color: var(--light-bg);
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  line-height: 1.6;
+}
+
+/* تحسين العناوين */
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+h1 {
+  font-size: 2.5rem;
+}
+
+h2 {
+  font-size: 2rem;
+}
+
+h3 {
+  font-size: 1.75rem;
+}
+
+/* تحسين الروابط */
+a {
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  text-decoration:none;
+}
