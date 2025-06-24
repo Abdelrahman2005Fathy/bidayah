@@ -78,10 +78,10 @@ const TimeSection = () => {
             </div>
             <div className="text-center py-2">
               <div className="inline-flex items-center bg-gradient-to-r from-[#055f56] to-[#f5a623] text-white px-6 py-3 rounded-full">
-                <span className="text-2xl font-bold">6</span>
+                <span className="text-2xl font-bold">10</span>
                 <span className="mr-2">أسابيع</span>
               </div>
-              <p className="mt-3 text-gray-600">شهر ونصف من التميز</p>
+              <p className="mt-3 text-gray-600">شهرين ونصف من التميز</p>
             </div>
           </div>
 
