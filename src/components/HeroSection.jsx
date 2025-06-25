@@ -69,12 +69,12 @@ const HeroSection = () => {
 
             {/* مؤقت العد التنازلي */}
             <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 max-w-md mx-auto lg:mx-0">
-              {!isEnd?<div className="flex items-center justify-center lg:justify-start gap-2 mb-2">
+              {isEnd?<div className="flex items-center justify-center lg:justify-start gap-2 mb-2">
                 <Clock className="text-[#f5a623] h-5 w-5" />
                 <span className="text-white/90 text-sm">ينتهي التسجيل خلال:</span>
               </div>:""}
               <div className="flex justify-center lg:justify-start gap-3">
-                {!isEnd ? Object.entries(timeLeft).map(([unit, value]) => (
+                {isEnd ? Object.entries(timeLeft).map(([unit, value]) => (
                   <div key={unit} className="flex flex-col items-center">
                     <div className="bg-[#f5a623] text-white font-bold rounded-lg w-12 h-12 flex items-center justify-center text-xl">
                       {value.toString().padStart(2, '0')}
@@ -99,7 +99,7 @@ const HeroSection = () => {
             {/* أزرار CTA */}
             <div className="flex flex-wrap justify-center lg:justify-start gap-4 pt-6">
               
-                {!isEnd?<Button className="z-10 cursor-pointer bg-[#f5a623] hover:bg-[#e6951f] px-8 py-6 text-lg font-semibold shadow-lg transform transition hover:scale-105">
+                {isEnd?<Button className="z-10 cursor-pointer bg-[#f5a623] hover:bg-[#e6951f] px-8 py-6 text-lg font-semibold shadow-lg transform transition hover:scale-105">
                   <Link to={'https://forms.gle/LeEVGjW1Fi84gzb79'} target="_blank" >
                   سجل الآن - مقاعد محدودة
                   </Link>
