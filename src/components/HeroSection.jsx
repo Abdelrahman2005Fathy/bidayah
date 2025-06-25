@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 
 const HeroSection = () => {
  const [isOpen, setIsOpen] = useState(false);
+ const [isEnd, setIsEnd] = useState(false);
   
   // تاريخ انتهاء التسجيل (اضبطه حسب حاجتك)
   const targetDate = new Date();
@@ -14,18 +15,18 @@ const HeroSection = () => {
   const calculateTimeLeft = () => {
     const now = new Date();
     const difference = targetDate - now;
-    
-    if (difference > 0) {
+
+    if (difference > 0 && isEnd == false) {
       return {
         days: Math.floor(difference / (1000 * 60 * 60 * 24)),
         hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
         minutes: Math.floor((difference / 1000 / 60) % 60),
         seconds: Math.floor((difference / 1000) % 60)
       };
+    } else {
+      setIsEnd(true); // تعيين الحالة عند انتهاء الوقت
+      return { days: 0, hours: 0, minutes: 0, seconds: 0 };
     }
-    
-    // إذا انتهى الوقت
-    return { days: 0, hours: 0, minutes: 0, seconds: 0 };
   };
 
   const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
@@ -68,12 +69,12 @@ const HeroSection = () => {
 
             {/* مؤقت العد التنازلي */}
             <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 max-w-md mx-auto lg:mx-0">
-              <div className="flex items-center justify-center lg:justify-start gap-2 mb-2">
+              {!isEnd?<div className="flex items-center justify-center lg:justify-start gap-2 mb-2">
                 <Clock className="text-[#f5a623] h-5 w-5" />
                 <span className="text-white/90 text-sm">ينتهي التسجيل خلال:</span>
-              </div>
+              </div>:""}
               <div className="flex justify-center lg:justify-start gap-3">
-                {Object.entries(timeLeft).map(([unit, value]) => (
+                {!isEnd ? Object.entries(timeLeft).map(([unit, value]) => (
                   <div key={unit} className="flex flex-col items-center">
                     <div className="bg-[#f5a623] text-white font-bold rounded-lg w-12 h-12 flex items-center justify-center text-xl">
                       {value.toString().padStart(2, '0')}
@@ -84,18 +85,25 @@ const HeroSection = () => {
                        unit === 'minutes' ? 'دقائق' : 'ثواني'}
                     </span>
                   </div>
-                ))}
+                )) : (
+                  <div className="flex flex-col items-center">
+                    <div className="bg-red-600 text-white font-bold rounded-lg w-[200px] h-12 flex items-center justify-center text-xl">
+                      تــم غـلـــق التــســــــجيل
+                    </div>
+                   
+                  </div>
+                )}
               </div>
             </div>
 
             {/* أزرار CTA */}
             <div className="flex flex-wrap justify-center lg:justify-start gap-4 pt-6">
               
-                <Button className="z-10 cursor-pointer bg-[#f5a623] hover:bg-[#e6951f] px-8 py-6 text-lg font-semibold shadow-lg transform transition hover:scale-105">
+                {!isEnd?<Button className="z-10 cursor-pointer bg-[#f5a623] hover:bg-[#e6951f] px-8 py-6 text-lg font-semibold shadow-lg transform transition hover:scale-105">
                   <Link to={'https://forms.gle/LeEVGjW1Fi84gzb79'} target="_blank" >
                   سجل الآن - مقاعد محدودة
                   </Link>
-                </Button>
+                </Button>:<></>}
               <Button 
                variant="outline" 
                className="z-10 cursor-pointer border-white text-white hover:bg-white/10 px-8 py-6 text-lg"

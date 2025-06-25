@@ -49,10 +49,9 @@ import { useState } from "react";
 
           {/* زر التسجيل */}
          <Button 
-            className="bg-[#f5a623] hover:bg-[#e6951f] cursor-pointer"
-            onClick={() => window.open('https://forms.gle/LeEVGjW1Fi84gzb79', '_blank')}
+            className="bg-red-600 hover:bg-red-400 cursor-pointer"
           >
-            سجل الآن
+            تم غلق التسجيل
           </Button>
         </div>
 
