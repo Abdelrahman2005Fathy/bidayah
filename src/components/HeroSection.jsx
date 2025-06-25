@@ -6,62 +6,39 @@ import { Link } from 'react-router-dom';
 const HeroSection = () => {
  const [isOpen, setIsOpen] = useState(false);
   
-  // القيم الابتدائية
-  const initialTime = {
-    days: 0,
-    hours: 17,
-    minutes: 5,
-    seconds: 30
+  // تاريخ انتهاء التسجيل (اضبطه حسب حاجتك)
+  const targetDate = new Date();
+  targetDate.setDate(targetDate.getDate());
+  targetDate.setHours(23, 59, 59, 999); // الساعة 12:00:00 مساءً
+
+  const calculateTimeLeft = () => {
+    const now = new Date();
+    const difference = targetDate - now;
+    
+    if (difference > 0) {
+      return {
+        days: Math.floor(difference / (1000 * 60 * 60 * 24)),
+        hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
+        minutes: Math.floor((difference / 1000 / 60) % 60),
+        seconds: Math.floor((difference / 1000) % 60)
+      };
+    }
+    
+    // إذا انتهى الوقت
+    return { days: 0, hours: 0, minutes: 0, seconds: 0 };
   };
 
-  // استرجاع الوقت المحفوظ أو استخدام القيم الابتدائية
-  const [timeLeft, setTimeLeft] = useState(() => {
-    const savedTime = typeof window !== 'undefined' ? localStorage.getItem('countdownTime') : null;
-    return savedTime ? JSON.parse(savedTime) : initialTime;
-  });
+  const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setTimeLeft(prev => {
-        const { days, hours, minutes, seconds } = prev;
-        
-        // حساب الوقت المتبقي
-        let newTime = { ...prev };
-        if (seconds > 0) newTime.seconds = seconds - 1;
-        else if (minutes > 0) {
-          newTime.minutes = minutes - 1;
-          newTime.seconds = 59;
-        }
-        else if (hours > 0) {
-          newTime.hours = hours - 1;
-          newTime.minutes = 59;
-          newTime.seconds = 59;
-        }
-        else if (days > 0) {
-          newTime.days = days - 1;
-          newTime.hours = 23;
-          newTime.minutes = 59;
-          newTime.seconds = 59;
-        }
-        
-        // حفظ الحالة في localStorage
-        if (typeof window !== 'undefined') {
-          localStorage.setItem('countdownTime', JSON.stringify(newTime));
-        }
-        
-        // إيقاف المؤقت عند الوصول إلى الصفر
-        if (days === 0 && hours === 0 && minutes === 0 && seconds === 0) {
-          clearInterval(timer);
-        }
-        
-        return newTime;
-      });
+      setTimeLeft(calculateTimeLeft());
     }, 1000);
 
     return () => clearInterval(timer);
   }, []);
-  
-    const scrollToSection = (sectionId) => {
+
+  const scrollToSection = (sectionId) => {
     const element = document.getElementById(sectionId);
     if (element) {
       element.scrollIntoView({
