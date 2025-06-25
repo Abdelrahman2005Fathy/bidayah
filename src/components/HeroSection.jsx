@@ -4,25 +4,57 @@ import { Clock } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const HeroSection = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  // مؤقت عد تنازلي (3 أيام كمثال)
-  const [timeLeft, setTimeLeft] = useState({
-    days: 3,
-    hours: 12,
-    minutes: 45,
+ const [isOpen, setIsOpen] = useState(false);
+  
+  // القيم الابتدائية
+  const initialTime = {
+    days: 0,
+    hours: 17,
+    minutes: 5,
     seconds: 30
+  };
+
+  // استرجاع الوقت المحفوظ أو استخدام القيم الابتدائية
+  const [timeLeft, setTimeLeft] = useState(() => {
+    const savedTime = typeof window !== 'undefined' ? localStorage.getItem('countdownTime') : null;
+    return savedTime ? JSON.parse(savedTime) : initialTime;
   });
 
   useEffect(() => {
     const timer = setInterval(() => {
       setTimeLeft(prev => {
         const { days, hours, minutes, seconds } = prev;
-        if (seconds > 0) return { ...prev, seconds: seconds - 1 };
-        if (minutes > 0) return { ...prev, minutes: minutes - 1, seconds: 59 };
-        if (hours > 0) return { ...prev, hours: hours - 1, minutes: 59, seconds: 59 };
-        if (days > 0) return { ...prev, days: days - 1, hours: 23, minutes: 59, seconds: 59 };
-        clearInterval(timer);
-        return prev;
+        
+        // حساب الوقت المتبقي
+        let newTime = { ...prev };
+        if (seconds > 0) newTime.seconds = seconds - 1;
+        else if (minutes > 0) {
+          newTime.minutes = minutes - 1;
+          newTime.seconds = 59;
+        }
+        else if (hours > 0) {
+          newTime.hours = hours - 1;
+          newTime.minutes = 59;
+          newTime.seconds = 59;
+        }
+        else if (days > 0) {
+          newTime.days = days - 1;
+          newTime.hours = 23;
+          newTime.minutes = 59;
+          newTime.seconds = 59;
+        }
+        
+        // حفظ الحالة في localStorage
+        if (typeof window !== 'undefined') {
+          localStorage.setItem('countdownTime', JSON.stringify(newTime));
+        }
+        
+        // إيقاف المؤقت عند الوصول إلى الصفر
+        if (days === 0 && hours === 0 && minutes === 0 && seconds === 0) {
+          clearInterval(timer);
+        }
+        
+        return newTime;
       });
     }, 1000);
 
